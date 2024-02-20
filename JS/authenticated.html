@@ -1,6 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOORAAY</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+
+    <h1>HOORAAY</h1>
+    <p>You are authenticated</p>
+    <button id="logoutButton">Logout</button>
+
+    <script>
+        function logOut() {
+            window.location.href = '/JS/index.html'; // using index.html in the code because its easier to understand
+            document.cookie = "savedUsername=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "savedPassword=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            // ^^ Clears the cookies from client side ^^
+        }
+
+        document.getElementById('logoutButton').onclick = logOut;
+        
+    </script>
+
     <script>
 
         // function for sanitizing the input (might replace to server only)
@@ -56,26 +82,6 @@
 
         authenticateUser(username, password);
 
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOORAAY</title>
-</head>
-<body>
-    <h1>HOORAAY</h1>
-    <p>You are authenticated</p>
-    <button id="logoutButton">Logout</button>
-
-    <script>
-        function logOut() {
-            window.location.href = '/JS/index.html'; // using index.html in the code because its easier to understand
-            document.cookie = "savedUsername=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            document.cookie = "savedPassword=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            // ^^ Clears the cookies from client side ^^
-        }
-
-        document.getElementById('logoutButton').onclick = logOut;
-        
     </script>
 </body>
 </html>
