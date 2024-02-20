@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+    <input type="text" name="Username" id="userInput">
+    <br>
+    <input type="text" name="Password" id="passInput">
+    <br>
+    <br>
+    <button id="loginButton">Login</button>
+
+    <script>
+        // Functions for authentication and authorization
+
+        function htmlEncode(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        async function authenticateUser(username, inputPassword) {
+            try {
+                const usernameEncoded = htmlEncode(username);
+                const passwordEncoded = htmlEncode(inputPassword);
+                const response = await fetch(`http://localhost:1234/?user=${usernameEncoded}&pass=${passwordEncoded}`, {
+                    method: 'GET',
+                    mode: 'cors', // Change mode to 'cors'
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // You can include additional headers if needed
+                    },
+                });
+                if (response.ok) {
+                    return true;
+                } else {
+                    alert('Invalid credentials');
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                return false;
+            }
+        }
+
+        function addSiteCookie(savedUsername, savedPassword) {
+            document.cookie = 'savedUsername=' + savedUsername + '; path=/';
+            document.cookie = 'savedPassword=' + savedPassword + '; path=/';
+        }
+
+        document.getElementById('loginButton').onclick = function() {
+            const username = document.getElementById('userInput').value;
+            const password = document.getElementById('passInput').value;
+            authenticateUser(username, password).then(isAuthenticated => {
+                if (isAuthenticated) {
+                    window.location.href = '/JS/authenticated.html';
+                    addSiteCookie(username, password);
+                } else {
+                    alert('Invalid credentials');
+                }
+            });
+        }
+
+        
+    </script>
+</body>
+</html>

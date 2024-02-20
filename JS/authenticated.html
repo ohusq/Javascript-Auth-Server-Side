@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+
+        // function for sanitizing the input (might replace to server only)
+        function htmlEncode(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }   
+
+        // Check if the user is authenticated (cookie is set)
+        
+        // check if the cookie exists
+        if (document.cookie.indexOf('savedUsername') == -1 || document.cookie.indexOf('savedPassword') == -1) { // index starts at 0, so if the cookie does not exist, the index will be -1
+            // if the cookie does not exist, redirect to the login page
+            alert('You are not authenticated | COOKIE_NOT_FOUND')
+            window.location.href = '/';
+        }
+
+        // if the cookie exists, check if the username is correct (authentication request)
+        const username = document.cookie.split('; ').find(row => row.startsWith('savedUsername')).split('=')[1];
+        const password = document.cookie.split('; ').find(row => row.startsWith('savedPassword')).split('=')[1];
+        alert('You are authenticated | COOKIE_FOUND')
+        async function authenticateUser(username, inputPassword) {
+            try {
+                const usernameEncoded = htmlEncode(username);
+                const passwordEncoded = htmlEncode(inputPassword);
+                const response = await fetch(`http://localhost:1234/?user=${usernameEncoded}&pass=${passwordEncoded}`, {
+                    method: 'GET',
+                    mode: 'cors', // Change mode to 'cors'
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // You can include additional headers if needed
+                    },
+                });
+
+                if (response.ok) {
+                    alert('You are authenticated');
+                    return true;
+                } else if (response.status === 403) {
+                    // if the response is not ok, redirect to the login page
+                    alert('You are not authenticated | AUTHENTICATION_FAILED')
+                    window.location.href = '/JS/index.html';
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                return false;
+            }
+        }
+
+        authenticateUser(username, password);
+
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOORAAY</title>
+</head>
+<body>
+    <h1>HOORAAY</h1>
+    <p>You are authenticated</p>
+    <button id="logoutButton">Logout</button>
+
+    <script>
+        function logOut() {
+            window.location.href = '/JS/index.html'; // using index.html in the code because its easier to understand
+            document.cookie = "savedUsername=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "savedPassword=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            // ^^ Clears the cookies from client side ^^
+        }
+
+        document.getElementById('logoutButton').onclick = logOut;
+        
+    </script>
+</body>
+</html>
