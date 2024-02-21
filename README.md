@@ -1,6 +1,6 @@
 # Javascript / HTML Authentication
 
-This project is made to learn JavaScript, the user credentials are server-sided
+This project is made to learn JavaScript, the user credentials are server-sided and IP-Locked.
 
 ## Table of Contents
 
@@ -25,11 +25,11 @@ Password : admin
 
 ## Usage
 
-Project can be used for personal projects / learning
+Project can be used for personal projects / learning.
 
 ## Contributing
 
-Guidelines for contributing to the project.
+Make a pull request.
 
 ## License
 
