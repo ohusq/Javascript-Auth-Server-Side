@@ -9,7 +9,7 @@
 <body>
     <input type="text" name="Username" id="userInput">
     <br>
-    <input type="text" name="Password" id="passInput">
+    <input type="password" name="Password" id="passInput">
     <br>
     <br>
     <button id="loginButton">Login</button>
@@ -17,20 +17,11 @@
     <script>
         // Functions for authentication and authorization
 
-        function htmlEncode(str) {
-            return String(str)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#39;');
-        }
+        
 
         async function authenticateUser(username, inputPassword) {
             try {
-                const usernameEncoded = htmlEncode(username);
-                const passwordEncoded = htmlEncode(inputPassword);
-                const response = await fetch(`http://localhost:1234/?user=${usernameEncoded}&pass=${passwordEncoded}`, {
+                const response = await fetch(`http://localhost:1234/?user=${username}&pass=${inputPassword}`, {
                     method: 'GET',
                     mode: 'cors', // Change mode to 'cors'
                     headers: {

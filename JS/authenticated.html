@@ -28,19 +28,6 @@
     </script>
 
     <script>
-
-        // function for sanitizing the input (might replace to server only)
-        function htmlEncode(str) {
-            return String(str)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#39;');
-        }   
-
-        // Check if the user is authenticated (cookie is set)
-        
         // check if the cookie exists
         if (document.cookie.indexOf('savedUsername') == -1 || document.cookie.indexOf('savedPassword') == -1) { // index starts at 0, so if the cookie does not exist, the index will be -1
             // if the cookie does not exist, redirect to the login page
@@ -51,12 +38,10 @@
         // if the cookie exists, check if the username is correct (authentication request)
         const username = document.cookie.split('; ').find(row => row.startsWith('savedUsername')).split('=')[1];
         const password = document.cookie.split('; ').find(row => row.startsWith('savedPassword')).split('=')[1];
-        alert('You are authenticated | COOKIE_FOUND')
+        
         async function authenticateUser(username, inputPassword) {
             try {
-                const usernameEncoded = htmlEncode(username);
-                const passwordEncoded = htmlEncode(inputPassword);
-                const response = await fetch(`http://localhost:1234/?user=${usernameEncoded}&pass=${passwordEncoded}`, {
+                const response = await fetch(`http://localhost:1234/?user=${username}&pass=${inputPassword}`, {
                     method: 'GET',
                     mode: 'cors', // Change mode to 'cors'
                     headers: {
@@ -66,7 +51,6 @@
                 });
 
                 if (response.ok) {
-                    alert('You are authenticated');
                     return true;
                 } else if (response.status === 403) {
                     // if the response is not ok, redirect to the login page
