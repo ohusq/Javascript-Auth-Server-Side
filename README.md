@@ -1,3 +1,6 @@
+# NOTICE
+## DO NOT USE THIS PROGRAM IN REAL CODE. IT IS VULNERABLE
+
 # Javascript / HTML Authentication
 
 This project is made to learn JavaScript, the user credentials are server-sided and IP-Locked.
